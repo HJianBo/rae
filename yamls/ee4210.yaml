@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  emqx1:
+    restart: always
+    container_name: ee4210
+    image: emqx/emqx-ee:4.2.10
+    environment:
+      - "EMQX_NAME=emqx"
+      - "EMQX_HOST=node0.mytest.io"
+    ports:
+      - "18083:18083"
+      - "1883:1883"
+    networks:
+      my_bridge:
+        aliases:
+        - node0.mytest.io
+
+networks:
+  my_bridge:
+    driver: bridge
+    name: my_bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.100.10.0/24
+          gateway: 172.100.10.1
